@@ -1,0 +1,32 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<div id="app">
+    <h3>[[title]]</h3>
+	<h3>[[code_result]]</h3>
+	</br>
+
+    <textarea v-model="url" placeholder="enter long url here"></textarea>
+    <button @click="formSubmit">Create short URL</button>
+
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        delimiters : ['[[', ']]'],
+        data: {
+            title: "URL Shortener",
+			code_result: "short URL: ",
+            url: ""
+        },
+        methods: {
+			formSubmit() {
+				axios.post('http://127.0.0.1:5000/add_url', {url: this.url,})
+				.then(response => (this.code_result = response.data.short_url))
+                .catch(error => (this.code_result = error))
+
+			}
+        }
+    });
+</script>
